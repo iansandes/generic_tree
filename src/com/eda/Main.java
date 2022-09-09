@@ -3,7 +3,7 @@ package com.eda;
 public class Main {
 
     public static void main(String[] args) {
-        Node raiz = new Node("0045");
+        /*Node raiz = new Node("0045");
         Node no2 = new Node("0030");
         Node no3 = new Node("0060");
         Node no4 = new Node("0020");
@@ -18,11 +18,24 @@ public class Main {
         Node no13 = new Node( "0052");
         Node no14 = new Node("0070");
         Node no15 = new Node("0080");
-        Node no16 = new Node("0027");
+        Node no16 = new Node("0027"); */
+
+        Node raiz = new Node("A");
+        Node no2 = new Node("B");
+        Node no3 = new Node("C");
+        Node no4 = new Node("D");
+        Node no5 = new Node("E");
+        Node no6 = new Node("F");
+        Node no7 = new Node("G");
+        Node no8 = new Node("H");
+        Node no9 = new Node("I");
+        Node no10 = new Node("J");
+        Node no11 = new Node("K");
+
 
         GenericTree genericTreeTeste = new GenericTree(raiz);
 
-        raiz.addChild(no2);
+        /*raiz.addChild(no2);
         raiz.addChild(no3);
         no2.addChild(no4);
         no2.addChild(no5);
@@ -36,7 +49,19 @@ public class Main {
         no6.addChild(no13);
         no7.addChild(no14);
         no7.addChild(no15);
-        no9.addChild(no16);
+        no9.addChild(no16);*/
+
+        raiz.addChild(no2);
+        raiz.addChild(no3);
+        raiz.addChild(no4);
+        no2.addChild(no5);
+        no3.addChild(no6);
+        no3.addChild(no7);
+        no3.addChild(no8);
+        no4.addChild(no9);
+        no4.addChild(no10);
+        no10.addChild(no11);
+
 
         System.out.print("Raiz: ");
         System.out.println(genericTreeTeste.getRoot().getValue());
@@ -63,7 +88,9 @@ public class Main {
         System.out.println(genericTreeTeste.returnAllNodesLevel(raiz));
 
 
+        genericTreeTeste.transformToBinaryTree();
 
+        System.out.println("Árvore Binária");
+        genericTreeTeste.printBinaryTree(genericTreeTeste.getRoot(), " ");
     }
-
 }

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Node<T> {
     private T value;
     Node<T> parentNode;
+    Node<T> left;
+    Node<T> right;
     ArrayList<Node<T>> children = new ArrayList<>();
 
     public Node(T value) {

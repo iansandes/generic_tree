@@ -120,6 +120,7 @@ public class GenericTree<T> {
     public boolean isRoot(Node<T> n) {
         return (n == this.root);
     }
+
     boolean isInternal(Node<T> n) {
         return (n.getChildren().size() > 0);
     }
@@ -128,8 +129,8 @@ public class GenericTree<T> {
         ArrayList<Node<T>> leafNodes = new ArrayList<Node<T>>();
         addAllLeafNodes(node, leafNodes);
         return  leafNodes;
-
     }
+
     public void addAllLeafNodes(Node <T> node, ArrayList<Node<T>> leafNodes) {
         if (node != null) {
             if (!isInternal(node)){
@@ -182,10 +183,43 @@ public class GenericTree<T> {
     }
 
     public String toString() {
-        return this.display(this.root) + "";
+        return this.printTree(this.root) + "";
     }
 
-    private String display(Node<T> node) {
+    public void transformToBinaryTree() {
+        Node newRoot = encode2binary(this.root);
+        this.root = newRoot;
+    }
+
+    public Node<T> encode2binary(Node node) {
+        if (node == null)
+            return null;
+
+        Node<T> rootTreeNode = new Node(node.getValue());
+        if (!node.children.isEmpty())
+            rootTreeNode.left = encode2binary((Node) node.children.get(0));
+
+        // the parent for the rest of the children
+        Node<T> currTreeNode = rootTreeNode.left;
+
+        // encode the rest of the children
+        for (int i = 1; i < node.children.size(); ++i) {
+            currTreeNode.right = encode2binary((Node) node.children.get(i));
+            currTreeNode = currTreeNode.right;
+        }
+        return rootTreeNode;
+    }
+
+    public void printBinaryTree(Node node, String prefix)
+    {
+        if(node == null) return;
+
+        System.out.println(prefix + " | " + node.getValue());
+        printBinaryTree(node.left , prefix + " ");
+        printBinaryTree(node.right , prefix + " ");
+    }
+
+    private String printTree(Node<T> node) {
         String result = "";
         if ((node.getChildren().size() > 0) || this.root().equals(node) ) {
             for (int i = 0; i < node.getChildren().size()-1; i++) {
@@ -197,7 +231,7 @@ public class GenericTree<T> {
             }
             result += "\n";
             for (int i = 0; i < node.children.size(); i++) {
-                result += this.display((Node) node.children.get(i));
+                result += this.printTree((Node) node.children.get(i));
             }
         }
         return result;
