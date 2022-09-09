@@ -199,10 +199,8 @@ public class GenericTree<T> {
         if (!node.children.isEmpty())
             rootTreeNode.left = encode2binary((Node) node.children.get(0));
 
-        // the parent for the rest of the children
         Node<T> currTreeNode = rootTreeNode.left;
 
-        // encode the rest of the children
         for (int i = 1; i < node.children.size(); ++i) {
             currTreeNode.right = encode2binary((Node) node.children.get(i));
             currTreeNode = currTreeNode.right;
