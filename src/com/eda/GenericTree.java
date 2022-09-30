@@ -1,5 +1,7 @@
 package com.eda;
 
+import Exceptions.DuplicatedNodeException;
+
 import java.util.*;
 
 public class GenericTree<T> {
@@ -9,21 +11,22 @@ public class GenericTree<T> {
         return root;
     }
 
-    public GenericTree(Node<T> root) {
+    public GenericTree(Node<T> root) throws DuplicatedNodeException {
         this.root = root;
+        verifyDuplicatedElements();
     }
 
     public Node<T> getRoot(){
         return this.root;
     }
 
-    public ArrayList<Node<T>> returnAllNodes(Node<T> node){
-        ArrayList<Node<T>> listOfNodes = new ArrayList<Node<T>>();
+    public ArrayList<T> returnAllNodes(Node<T> node){
+        ArrayList<T> listOfNodes = new ArrayList<T>();
         addAllNodes(node, listOfNodes);
         return listOfNodes;
     }
 
-    private void addAllNodes(Node<T> node, ArrayList<Node<T>> listOfNodes) {
+    private void addAllNodes(Node<T> node, ArrayList<T> listOfNodes) {
         if (node != null) {
             if (isRoot(node)){
                 List<Node> children = node.getChildren();
@@ -33,7 +36,7 @@ public class GenericTree<T> {
                     }
                 }
             } else {
-                listOfNodes.add(node);
+                listOfNodes.add(node.getValue());
                 List<Node> children = node.getChildren();
                 if (children != null) {
                     for (Node child: children) {
@@ -182,6 +185,15 @@ public class GenericTree<T> {
         }
     }
 
+    public void verifyDuplicatedElements() throws DuplicatedNodeException {
+        var allNodes = returnAllNodes(this.root);
+        for (T node : allNodes) {
+            if (Collections.frequency(allNodes, node) > 1){
+                throw new DuplicatedNodeException("Existem nós duplicados na árvore");
+            }
+        }
+    }
+
     public String toString() {
         return this.printTree(this.root) + "";
     }
@@ -191,20 +203,23 @@ public class GenericTree<T> {
         this.root = newRoot;
     }
 
-    public Node<T> encode2binary(Node node) {
+    public Node<T> encode2binary(Node<T> node) {
         if (node == null)
             return null;
 
-        Node<T> rootTreeNode = new Node(node.getValue());
+        Node<T> rootTreeNode = new Node<T>(node.getValue());
         if (!node.children.isEmpty())
-            rootTreeNode.left = encode2binary((Node) node.children.get(0));
+            rootTreeNode.left = encode2binary(node.children.get(0));
+
 
         Node<T> currTreeNode = rootTreeNode.left;
 
         for (int i = 1; i < node.children.size(); ++i) {
-            currTreeNode.right = encode2binary((Node) node.children.get(i));
+            currTreeNode.right = encode2binary(node.children.get(i));
             currTreeNode = currTreeNode.right;
+
         }
+
         return rootTreeNode;
     }
 
@@ -235,3 +250,4 @@ public class GenericTree<T> {
         return result;
     }
 }
+

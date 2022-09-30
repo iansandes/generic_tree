@@ -17,6 +17,11 @@ public class Node<T> {
         return value;
     }
 
+    public int getIntValue() {
+        int value = (int) this.value;
+        return value;
+    }
+
     public void setValor(T value) {
         this.value = value;
     }
